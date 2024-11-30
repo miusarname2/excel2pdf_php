@@ -1,0 +1,21 @@
+{
+    "name": "miusarname2/converter-excel-to-pdf",
+    "description": "This is a project where I have to convert one or more excels into pdf.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Miusarname2\\ConverterExcelToPdf\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "miusarname2"
+        }
+    ],
+    "require": {
+        "mpdf/mpdf": "^7.1",
+        "phpoffice/phpspreadsheet": "1.8.2",
+        "paragonie/random_compat": "2.0.21"
+    }
+}
