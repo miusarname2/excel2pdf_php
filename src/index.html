@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Excel a PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            max-width: 400px;
+            background-color: #f9f9f9;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .success,
+        .error {
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Convertidor de Excel a PDF</h1>
+    <form id="uploadForm" enctype="multipart/form-data" method="POST">
+        <label for="excelFile">Selecciona un archivo Excel (.xlsx):</label><br><br>
+        <input type="file" name="excelFile" id="excelFile" accept=".xlsx" required><br><br>
+        <button type="submit">Convertir a PDF</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = '';
+
+            try {
+                const response = await fetch('process.php', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    responseDiv.innerHTML = `<div class="success">
+                        Archivo convertido exitosamente: 
+                        <a href="${result.fileUrl}" target="_blank">Descargar PDF</a>
+                    </div>`;
+                } else {
+                    responseDiv.innerHTML = `<div class="error">Error: ${result.message}</div>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<div class="error">Error al procesar el archivo: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
